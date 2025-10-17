@@ -1795,6 +1795,23 @@ export const LandCalculator: React.FC = () => {
                   InputLabelProps={{ shrink: true }}
                 />
               </Box>
+              <Box sx={{ flexGrow: 1, minWidth: { xs: '100%', md: 'calc(33.33% - 8px)' } }}>
+                <FormControl fullWidth>
+                  <Select
+                    value={comp1Data.floodZone || ''}
+                    label="Flood Zone"
+                    onChange={(e) => setComp1Data({ ...comp1Data, floodZone: e.target.value as FloodZoneValues })}
+                    displayEmpty
+                  >
+                    <MenuItem value="">Select flood zone</MenuItem>
+                    {Object.values(FLOOD_ZONES).map((zone) => (
+                      <MenuItem key={zone} value={zone}>
+                        {zone}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
             </Box>
           </Box>
         </Box>
@@ -2015,6 +2032,23 @@ export const LandCalculator: React.FC = () => {
                   InputLabelProps={{ shrink: true }}
                 />
               </Box>
+              <Box sx={{ flexGrow: 1, minWidth: { xs: '100%', md: 'calc(33.33% - 8px)' } }}>
+                <FormControl fullWidth>
+                  <Select
+                    value={comp2Data.floodZone || ''}
+                    label="Flood Zone"
+                    onChange={(e) => setComp2Data({ ...comp2Data, floodZone: e.target.value as FloodZoneValues })}
+                    displayEmpty
+                  >
+                    <MenuItem value="">Select flood zone</MenuItem>
+                    {Object.values(FLOOD_ZONES).map((zone) => (
+                      <MenuItem key={zone} value={zone}>
+                        {zone}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Box>
             </Box>
           </Box>
         </Box>
@@ -2234,6 +2268,23 @@ export const LandCalculator: React.FC = () => {
                   onChange={(e) => setComp3Data({ ...comp3Data, closeDate: e.target.value })}
                   InputLabelProps={{ shrink: true }}
                 />
+              </Box>
+              <Box sx={{ flexGrow: 1, minWidth: { xs: '100%', md: 'calc(33.33% - 8px)' } }}>
+                <FormControl fullWidth>
+                  <Select
+                    value={comp3Data.floodZone || ''}
+                    label="Flood Zone"
+                    onChange={(e) => setComp3Data({ ...comp3Data, floodZone: e.target.value as FloodZoneValues })}
+                    displayEmpty
+                  >
+                    <MenuItem value="">Select flood zone</MenuItem>
+                    {Object.values(FLOOD_ZONES).map((zone) => (
+                      <MenuItem key={zone} value={zone}>
+                        {zone}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Box>
             </Box>
           </Box>
