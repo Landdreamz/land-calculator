@@ -2290,286 +2290,7 @@ export const LandCalculator: React.FC = () => {
           </Box>
         </Box>
 
-        {/* Comparable Analysis Results */}
-        <Box sx={{ mt: 4, pt: 4, borderTop: 1, borderColor: 'divider' }}>
-          <Typography variant="h6" gutterBottom>
-            Comparable Analysis Results
-          </Typography>
-          
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {/* Summary Table */}
-            <Box sx={{ 
-              border: 1, 
-              borderColor: 'divider', 
-              borderRadius: 1,
-              overflow: 'auto'
-            }}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow sx={{ backgroundColor: 'primary.main' }}>
-                    <TableCell sx={{ color: 'white' }}>Property</TableCell>
-                    <TableCell align="right" sx={{ color: 'white' }}>Sale Price</TableCell>
-                    <TableCell align="right" sx={{ color: 'white' }}>Square Feet</TableCell>
-                    <TableCell align="right" sx={{ color: 'white' }}>Price/SqFt</TableCell>
-                    <TableCell align="right" sx={{ color: 'white' }}>Acres</TableCell>
-                    <TableCell align="right" sx={{ color: 'white' }}>Price/Acre</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Comp 1</TableCell>
-                    <TableCell align="right">
-                      {comp1Data.salePrice ? `$${parseInt(comp1Data.salePrice).toLocaleString()}` : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp1Data.squareFeet ? parseInt(comp1Data.squareFeet).toLocaleString() : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp1Data.pricePerSqFt ? `$${parseFloat(comp1Data.pricePerSqFt).toFixed(2)}` : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp1Data.acres ? parseFloat(comp1Data.acres).toFixed(4) : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp1Data.pricePerAcre ? `$${parseInt(comp1Data.pricePerAcre).toLocaleString()}` : '-'}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Comp 2</TableCell>
-                    <TableCell align="right">
-                      {comp2Data.salePrice ? `$${parseInt(comp2Data.salePrice).toLocaleString()}` : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp2Data.squareFeet ? parseInt(comp2Data.squareFeet).toLocaleString() : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp2Data.pricePerSqFt ? `$${parseFloat(comp2Data.pricePerSqFt).toFixed(2)}` : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp2Data.acres ? parseFloat(comp2Data.acres).toFixed(4) : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp2Data.pricePerAcre ? `$${parseInt(comp2Data.pricePerAcre).toLocaleString()}` : '-'}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Comp 3</TableCell>
-                    <TableCell align="right">
-                      {comp3Data.salePrice ? `$${parseInt(comp3Data.salePrice).toLocaleString()}` : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp3Data.squareFeet ? parseInt(comp3Data.squareFeet).toLocaleString() : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp3Data.pricePerSqFt ? `$${parseFloat(comp3Data.pricePerSqFt).toFixed(2)}` : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp3Data.acres ? parseFloat(comp3Data.acres).toFixed(4) : '-'}
-                    </TableCell>
-                    <TableCell align="right">
-                      {comp3Data.pricePerAcre ? `$${parseInt(comp3Data.pricePerAcre).toLocaleString()}` : '-'}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-                <TableFooter>
-                  <TableRow sx={{ backgroundColor: 'grey.100' }}>
-                    <TableCell><strong>Average</strong></TableCell>
-                    <TableCell align="right">
-                      {(() => {
-                        const validPrices = [comp1Data.salePrice, comp2Data.salePrice, comp3Data.salePrice]
-                          .filter(price => price && !isNaN(parseFloat(price)));
-                        if (validPrices.length === 0) return '-';
-                        const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
-                        return `$${avg.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
-                      })()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {(() => {
-                        const validSqft = [comp1Data.squareFeet, comp2Data.squareFeet, comp3Data.squareFeet]
-                          .filter(sqft => sqft && !isNaN(parseFloat(sqft)));
-                        if (validSqft.length === 0) return '-';
-                        const avg = validSqft.reduce((sum, sqft) => sum + parseFloat(sqft), 0) / validSqft.length;
-                        return avg.toLocaleString(undefined, { maximumFractionDigits: 0 });
-                      })()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {(() => {
-                        const validPrices = [comp1Data.pricePerSqFt, comp2Data.pricePerSqFt, comp3Data.pricePerSqFt]
-                          .filter(price => price && !isNaN(parseFloat(price)));
-                        if (validPrices.length === 0) return '-';
-                        const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
-                        return `$${avg.toFixed(2)}`;
-                      })()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {(() => {
-                        const validAcres = [comp1Data.acres, comp2Data.acres, comp3Data.acres]
-                          .filter(acres => acres && !isNaN(parseFloat(acres)));
-                        if (validAcres.length === 0) return '-';
-                        const avg = validAcres.reduce((sum, acres) => sum + parseFloat(acres), 0) / validAcres.length;
-                        return avg.toFixed(4);
-                      })()}
-                    </TableCell>
-                    <TableCell align="right">
-                      {(() => {
-                        const validPrices = [comp1Data.pricePerAcre, comp2Data.pricePerAcre, comp3Data.pricePerAcre]
-                          .filter(price => price && !isNaN(parseFloat(price)));
-                        if (validPrices.length === 0) return '-';
-                        const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
-                        return `$${avg.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
-                      })()}
-                    </TableCell>
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </Box>
-
-            {/* Analysis Card */}
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="subtitle1" gutterBottom>
-                  Market Analysis Summary
-                </Typography>
-                <Typography variant="body2" color="text.secondary" paragraph>
-                  Based on the comparable properties:
-                </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <Typography variant="body2">
-                    • Average Price per Square Foot: {(() => {
-                      const validPrices = [comp1Data.pricePerSqFt, comp2Data.pricePerSqFt, comp3Data.pricePerSqFt]
-                        .filter(price => price && !isNaN(parseFloat(price)));
-                      if (validPrices.length === 0) return 'Not enough data';
-                      const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
-                      return `$${avg.toFixed(2)}`;
-                    })()}
-                  </Typography>
-                  <Typography variant="body2">
-                    • Average Price per Acre: {(() => {
-                      const validPrices = [comp1Data.pricePerAcre, comp2Data.pricePerAcre, comp3Data.pricePerAcre]
-                        .filter(price => price && !isNaN(parseFloat(price)));
-                      if (validPrices.length === 0) return 'Not enough data';
-                      const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
-                      return `$${avg.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
-                    })()}
-                  </Typography>
-                </Box>
-              </CardContent>
-            </Card>
-
-            {/* Subject Property Market Value Analysis */}
-            <Card variant="outlined" sx={{ bgcolor: '#f5f5f5', border: '1px solid', borderColor: 'primary.main' }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'primary.main' }}>
-                  Subject Property Market Value Analysis
-                </Typography>
-                {(() => {
-                  // Calculate average price per square foot from comps
-                  const validPrices = [comp1Data.pricePerSqFt, comp2Data.pricePerSqFt, comp3Data.pricePerSqFt]
-                    .filter(price => price && !isNaN(parseFloat(price)));
-                  const avgPricePerSqFt = validPrices.length > 0 
-                    ? validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length
-                    : 0;
-
-                  // Get subject property square footage
-                  const subjectSqFt = squareFeet ? parseFloat(squareFeet) : 0;
-
-                  // Calculate estimated market value
-                  const estimatedValue = avgPricePerSqFt * subjectSqFt;
-
-                  if (!avgPricePerSqFt || !subjectSqFt) {
-                    return (
-                      <Alert severity="warning" sx={{ mt: 1 }}>
-                        Please ensure both the subject property square footage and comparable sales data are entered to calculate the estimated market value.
-                      </Alert>
-                    );
-                  }
-
-                  return (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                      <Box>
-                        <Typography variant="subtitle2" color="primary" sx={{ mb: 0.5 }}>
-                          Subject Property Details:
-                        </Typography>
-                        <Typography variant="body1">
-                          • Square Footage: {parseInt(squareFeet).toLocaleString()} sq ft ({parseFloat(acres).toFixed(4)} acres)
-                        </Typography>
-                      </Box>
-                      
-                      <Box>
-                        <Typography variant="subtitle2" color="primary" sx={{ mb: 0.5 }}>
-                          Calculation:
-                        </Typography>
-                        <Typography variant="body1">
-                          • Average Price per Square Foot: ${avgPricePerSqFt.toFixed(2)}
-                        </Typography>
-                        <Typography variant="body1">
-                          • Subject Property Size: {parseInt(squareFeet).toLocaleString()} sq ft ({parseFloat(acres).toFixed(4)} acres)
-                        </Typography>
-                      </Box>
-
-                      <Box sx={{ mt: 1, p: 2, bgcolor: 'primary.main', borderRadius: 1 }}>
-                        <Typography variant="h6" sx={{ color: 'white' }}>
-                          Estimated Market Value: ${estimatedValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                        </Typography>
-                        {baseValue && (
-                          <Typography variant="body2" sx={{ color: 'white', mt: 1 }}>
-                            {estimatedValue > parseFloat(baseValue) 
-                              ? `This is ${(((estimatedValue / parseFloat(baseValue)) - 1) * 100).toFixed(1)}% above the asking price`
-                              : `This is ${(((parseFloat(baseValue) / estimatedValue) - 1) * 100).toFixed(1)}% below the asking price`}
-                          </Typography>
-                        )}
-                      </Box>
-
-                      {/* Percentage Breakdown Table */}
-                      <Box sx={{ mt: 3 }}>
-                        <Typography variant="subtitle2" color="primary" sx={{ mb: 2 }}>
-                          Market Value Percentage Breakdown:
-                        </Typography>
-                        <Box sx={{ border: 1, borderColor: 'divider', borderRadius: 1, overflow: 'hidden' }}>
-                          <Table size="small">
-                            <TableHead>
-                              <TableRow sx={{ bgcolor: 'grey.100' }}>
-                                <TableCell>Percentage</TableCell>
-                                <TableCell align="right">Value</TableCell>
-                                <TableCell align="right">Per Sq Ft</TableCell>
-                                <TableCell align="right">Per Acre</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {[90, 80, 70, 60, 50, 40, 30, 20, 10].map((percentage) => {
-                                const value = (estimatedValue * (percentage / 100));
-                                const perSqFt = value / parseFloat(squareFeet);
-                                const perAcre = value / parseFloat(acres);
-                                return (
-                                  <TableRow key={percentage}>
-                                    <TableCell>{percentage}%</TableCell>
-                                    <TableCell align="right">
-                                      ${value.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${perSqFt.toFixed(2)}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                      ${perAcre.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                                    </TableCell>
-                                  </TableRow>
-                                );
-                              })}
-                            </TableBody>
-                          </Table>
-                        </Box>
-                        <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                          This breakdown shows various percentage values of the estimated market value, 
-                          helping to understand different value points for negotiation or analysis.
-                        </Typography>
-                      </Box>
-                    </Box>
-                  );
-                })()}
-              </CardContent>
-            </Card>
-          </Box>
-        </Box>
+        {/* Comparable Analysis Results moved below Active Listing Section */}
 
         {/* Active Listing Section */}
         <Box sx={{ mt: 4, pt: 4, borderTop: 1, borderColor: 'divider' }}>
@@ -2759,6 +2480,174 @@ export const LandCalculator: React.FC = () => {
                     Enter list price and acreage to see analysis.
                   </Typography>
                 )}
+              </CardContent>
+            </Card>
+          </Box>
+        </Box>
+
+        {/* Comparable Analysis Results (moved to bottom under Active Listing Section) */}
+        <Box sx={{ mt: 4, pt: 4, borderTop: 1, borderColor: 'divider' }}>
+          <Typography variant="h6" gutterBottom>
+            Comparable Analysis Results
+          </Typography>
+          
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {/* Summary Table */}
+            <Box sx={{ 
+              border: 1, 
+              borderColor: 'divider', 
+              borderRadius: 1,
+              overflow: 'auto'
+            }}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: 'primary.main' }}>
+                    <TableCell sx={{ color: 'white' }}>Property</TableCell>
+                    <TableCell align="right" sx={{ color: 'white' }}>Sale Price</TableCell>
+                    <TableCell align="right" sx={{ color: 'white' }}>Square Feet</TableCell>
+                    <TableCell align="right" sx={{ color: 'white' }}>Price/SqFt</TableCell>
+                    <TableCell align="right" sx={{ color: 'white' }}>Acres</TableCell>
+                    <TableCell align="right" sx={{ color: 'white' }}>Price/Acre</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Comp 1</TableCell>
+                    <TableCell align="right">
+                      {comp1Data.salePrice ? `$${parseInt(comp1Data.salePrice).toLocaleString()}` : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp1Data.squareFeet ? parseInt(comp1Data.squareFeet).toLocaleString() : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp1Data.pricePerSqFt ? `$${parseFloat(comp1Data.pricePerSqFt).toFixed(2)}` : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp1Data.acres ? parseFloat(comp1Data.acres).toFixed(4) : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp1Data.pricePerAcre ? `$${parseInt(comp1Data.pricePerAcre).toLocaleString()}` : '-'}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Comp 2</TableCell>
+                    <TableCell align="right">
+                      {comp2Data.salePrice ? `$${parseInt(comp2Data.salePrice).toLocaleString()}` : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp2Data.squareFeet ? parseInt(comp2Data.squareFeet).toLocaleString() : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp2Data.pricePerSqFt ? `$${parseFloat(comp2Data.pricePerSqFt).toFixed(2)}` : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp2Data.acres ? parseFloat(comp2Data.acres).toFixed(4) : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp2Data.pricePerAcre ? `$${parseInt(comp2Data.pricePerAcre).toLocaleString()}` : '-'}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Comp 3</TableCell>
+                    <TableCell align="right">
+                      {comp3Data.salePrice ? `$${parseInt(comp3Data.salePrice).toLocaleString()}` : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp3Data.squareFeet ? parseInt(comp3Data.squareFeet).toLocaleString() : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp3Data.pricePerSqFt ? `$${parseFloat(comp3Data.pricePerSqFt).toFixed(2)}` : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp3Data.acres ? parseFloat(comp3Data.acres).toFixed(4) : '-'}
+                    </TableCell>
+                    <TableCell align="right">
+                      {comp3Data.pricePerAcre ? `$${parseInt(comp3Data.pricePerAcre).toLocaleString()}` : '-'}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+                <TableFooter>
+                  <TableRow sx={{ backgroundColor: 'grey.100' }}>
+                    <TableCell><strong>Average</strong></TableCell>
+                    <TableCell align="right">
+                      {(() => {
+                        const validPrices = [comp1Data.salePrice, comp2Data.salePrice, comp3Data.salePrice]
+                          .filter(price => price && !isNaN(parseFloat(price)));
+                        if (validPrices.length === 0) return '-';
+                        const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
+                        return `$${avg.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+                      })()}
+                    </TableCell>
+                    <TableCell align="right">
+                      {(() => {
+                        const validSqft = [comp1Data.squareFeet, comp2Data.squareFeet, comp3Data.squareFeet]
+                          .filter(sqft => sqft && !isNaN(parseFloat(sqft)));
+                        if (validSqft.length === 0) return '-';
+                        const avg = validSqft.reduce((sum, sqft) => sum + parseFloat(sqft), 0) / validSqft.length;
+                        return avg.toLocaleString(undefined, { maximumFractionDigits: 0 });
+                      })()}
+                    </TableCell>
+                    <TableCell align="right">
+                      {(() => {
+                        const validPrices = [comp1Data.pricePerSqFt, comp2Data.pricePerSqFt, comp3Data.pricePerSqFt]
+                          .filter(price => price && !isNaN(parseFloat(price)));
+                        if (validPrices.length === 0) return '-';
+                        const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
+                        return `$${avg.toFixed(2)}`;
+                      })()}
+                    </TableCell>
+                    <TableCell align="right">
+                      {(() => {
+                        const validAcres = [comp1Data.acres, comp2Data.acres, comp3Data.acres]
+                          .filter(acres => acres && !isNaN(parseFloat(acres)));
+                        if (validAcres.length === 0) return '-';
+                        const avg = validAcres.reduce((sum, acres) => sum + parseFloat(acres), 0) / validAcres.length;
+                        return avg.toFixed(4);
+                      })()}
+                    </TableCell>
+                    <TableCell align="right">
+                      {(() => {
+                        const validPrices = [comp1Data.pricePerAcre, comp2Data.pricePerAcre, comp3Data.pricePerAcre]
+                          .filter(price => price && !isNaN(parseFloat(price)));
+                        if (validPrices.length === 0) return '-';
+                        const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
+                        return `$${avg.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+                      })()}
+                    </TableCell>
+                  </TableRow>
+                </TableFooter>
+              </Table>
+            </Box>
+
+            {/* Analysis Card */}
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="subtitle1" gutterBottom>
+                  Market Analysis Summary
+                </Typography>
+                <Typography variant="body2" color="text.secondary" paragraph>
+                  Based on the comparable properties:
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Typography variant="body2">
+                    • Average Price per Square Foot: {(() => {
+                      const validPrices = [comp1Data.pricePerSqFt, comp2Data.pricePerSqFt, comp3Data.pricePerSqFt]
+                        .filter(price => price && !isNaN(parseFloat(price)));
+                      if (validPrices.length === 0) return 'Not enough data';
+                      const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
+                      return `$${avg.toFixed(2)}`;
+                    })()}
+                  </Typography>
+                  <Typography variant="body2">
+                    • Average Price per Acre: {(() => {
+                      const validPrices = [comp1Data.pricePerAcre, comp2Data.pricePerAcre, comp3Data.pricePerAcre]
+                        .filter(price => price && !isNaN(parseFloat(price)));
+                      if (validPrices.length === 0) return 'Not enough data';
+                      const avg = validPrices.reduce((sum, price) => sum + parseFloat(price), 0) / validPrices.length;
+                      return `$${avg.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+                    })()}
+                  </Typography>
+                </Box>
               </CardContent>
             </Card>
           </Box>
