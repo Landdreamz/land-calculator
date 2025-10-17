@@ -72,6 +72,135 @@ export const LandCalculator: React.FC = () => {
   const [showQuickInput, setShowQuickInput] = useState<boolean>(true);
   const [parseError, setParseError] = useState<string>('');
   
+  const buildCopySummary = (): string => {
+    const safe = (v: string | number | undefined | null): string => {
+      if (v === undefined || v === null) return '';
+      if (typeof v === 'number') return `${v}`;
+      return v;
+    };
+
+    const fmtMoney = (v?: string): string => {
+      if (!v || isNaN(parseFloat(v))) return '';
+      return parseFloat(v).toLocaleString(undefined, { maximumFractionDigits: 0 });
+    };
+
+    const fmtMoneyNum = (n?: number): string => {
+      if (n === undefined || n === null || isNaN(n)) return '';
+      return n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    };
+
+    const fmtTwo = (v?: string): string => {
+      if (!v || isNaN(parseFloat(v))) return '';
+      return parseFloat(v).toFixed(2);
+    };
+
+    const fmtTwoNum = (n?: number): string => {
+      if (n === undefined || n === null || isNaN(n)) return '';
+      return n.toFixed(2);
+    };
+
+    // Averages similar to tables
+    const avgPricePerSqFt = (() => {
+      const values = [comp1Data.pricePerSqFt, comp2Data.pricePerSqFt, comp3Data.pricePerSqFt]
+        .filter(p => p && !isNaN(parseFloat(p)) ) as string[];
+      if (values.length === 0) return 0;
+      return values.reduce((s, p) => s + parseFloat(p), 0) / values.length;
+    })();
+    const avgPricePerAcre = (() => {
+      const values = [comp1Data.pricePerAcre, comp2Data.pricePerAcre, comp3Data.pricePerAcre]
+        .filter(p => p && !isNaN(parseFloat(p)) ) as string[];
+      if (values.length === 0) return 0;
+      return values.reduce((s, p) => s + parseFloat(p), 0) / values.length;
+    })();
+
+    // Estimated Market Value (same approach as Market Analysis Summary)
+    const estimatedMarketValue = (() => {
+      const subjectSqFt = squareFeet ? parseFloat(squareFeet) : 0;
+      if (!avgPricePerSqFt || !subjectSqFt) return 0;
+      return avgPricePerSqFt * subjectSqFt;
+    })();
+
+    const percentValues = [90, 80, 70, 60, 50, 30, 20, 10].map(p => ({
+      p,
+      v: estimatedMarketValue ? estimatedMarketValue * (p / 100) : 0
+    }));
+
+    // Active listing derived values
+    const activePricePerSqFt = (activeListingData.listPrice && activeListingData.squareFeet)
+      ? parseFloat(activeListingData.listPrice) / parseFloat(activeListingData.squareFeet)
+      : undefined;
+    const activePricePerAcre = (activeListingData.listPrice && activeListingData.acres)
+      ? parseFloat(activeListingData.listPrice) / parseFloat(activeListingData.acres)
+      : undefined;
+
+    const askingMinusMarket = (baseValue && estimatedMarketValue)
+      ? (parseFloat(baseValue) - estimatedMarketValue)
+      : undefined;
+    const askingToMarketPct = (baseValue && estimatedMarketValue)
+      ? ((parseFloat(baseValue) / estimatedMarketValue) * 100)
+      : undefined;
+
+    return (
+      `✅ COMP #1\n`+
+      `Flood Zone:\n${safe(comp1Data.floodZone)}\n`+
+      `Trees:\n${safe(comp1Data.trees)}\n`+
+      `Sq Ft:\n${safe(comp1Data.squareFeet)}\n`+
+      `Acres:\n${safe(comp1Data.acres)}\n`+
+      `Address:\n${safe(comp1Data.address)}\n`+
+      `DOM:\n${safe(comp1Data.dom)}\n`+
+      `Sold Price: $${fmtMoney(comp1Data.salePrice)}\n`+
+      `Close Date:\n${safe(comp1Data.closeDate)}\n`+
+      `Sq Ft Sold Price: $${fmtTwo(comp1Data.pricePerSqFt)}\n`+
+      `Acres Sold Price: $${fmtMoney(comp1Data.pricePerAcre)}\n`+
+      `---------------------------------------\n`+
+      `✅ COMP #2\n`+
+      `Flood Zone:\n${safe(comp2Data.floodZone)}\n`+
+      `Trees:\n${safe(comp2Data.trees)}\n`+
+      `Sq Ft:\n${safe(comp2Data.squareFeet)}\n`+
+      `Acres:\n${safe(comp2Data.acres)}\n`+
+      `Address:\n${safe(comp2Data.address)}\n`+
+      `DOM:\n${safe(comp2Data.dom)}\n`+
+      `Sold Price: $${fmtMoney(comp2Data.salePrice)}\n`+
+      `Close Date:\n${safe(comp2Data.closeDate)}\n`+
+      `Sq Ft Sold Price: $${fmtTwo(comp2Data.pricePerSqFt)}\n`+
+      `Acres Sold Price: $${fmtMoney(comp2Data.pricePerAcre)}\n`+
+      `---------------------------------------\n`+
+      `✅ COMP #3\n`+
+      `Flood Zone:\n${safe(comp3Data.floodZone)}\n`+
+      `Trees:\n${safe(comp3Data.trees)}\n`+
+      `Sq Ft:\n${safe(comp3Data.squareFeet)}\n`+
+      `Acres:\n${safe(comp3Data.acres)}\n`+
+      `Address:\n${safe(comp3Data.address)}\n`+
+      `DOM:\n${safe(comp3Data.dom)}\n`+
+      `Sold Price: $${fmtMoney(comp3Data.salePrice)}\n`+
+      `Close Date:\n${safe(comp3Data.closeDate)}\n`+
+      `Sq Ft Sold Price: $${fmtTwo(comp3Data.pricePerSqFt)}\n`+
+      `Acres Sold Price: $${fmtMoney(comp3Data.pricePerAcre)}\n`+
+      `---------------------------------------\n`+
+      `📌 ACTIVE LISTING #1\n`+
+      `Flood Zone:\n${safe(activeListingData.floodZone)}\n`+
+      `Trees:\n${safe(activeListingData.trees)}\n`+
+      `Sq Ft:\n${safe(activeListingData.squareFeet)}\n`+
+      `Acres:\n${safe(activeListingData.acres)}\n`+
+      `Address:\n${safe(activeListingData.address)}\n`+
+      `DOM:\n${safe(activeListingData.daysOnMarket)}\n`+
+      `Asking Price: $${fmtMoney(activeListingData.listPrice)}\n`+
+      `Sq Ft Asking Price: $${fmtTwoNum(activePricePerSqFt)}\n`+
+      `Acres Asking Price: $${fmtMoneyNum(activePricePerAcre)}\n`+
+      `---------------------------------------\n`+
+      `SQ FT AVG Sold Price: $${fmtTwoNum(avgPricePerSqFt)}\n`+
+      `Acres AVG Sold Price: $${fmtMoneyNum(avgPricePerAcre)}\n`+
+      `Lot Size:\n${squareFeet ? `${parseInt(squareFeet).toLocaleString()} sq ft` : ''}${acres ? ` (${parseFloat(acres).toFixed(4)} acres)` : ''}\n`+
+      `REAL PROPERTY MARKET VALUE: $${fmtMoneyNum(estimatedMarketValue)} (100%)\n`+
+      `${percentValues.map(({p, v}) => `• ${p}% = $${fmtMoneyNum(v)}`).join('\n')}\n`+
+      `---------------------------------------\n`+
+      `Asking Price: $${fmtMoney(baseValue)}\n`+
+      `County Records Price: $${fmtMoney(appraisalValue)}\n`+
+      `Asking Price – Real Market Value Difference: $${askingMinusMarket !== undefined ? fmtMoneyNum(askingMinusMarket) : ''}\n`+
+      `Asking Price to Market Percentage:\n${askingToMarketPct !== undefined ? fmtTwoNum(askingToMarketPct) : ''}%\n`
+    );
+  };
+  
   // Comp 1 states
   const [comp1PasteInput, setComp1PasteInput] = useState<string>('');
   const [showComp1QuickInput, setShowComp1QuickInput] = useState<boolean>(true);
@@ -2635,6 +2764,32 @@ export const LandCalculator: React.FC = () => {
               </CardContent>
             </Card>
           </Box>
+          
+          {/* Copy-ready Summary */}
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="subtitle1" gutterBottom>
+                Copy-ready Summary
+              </Typography>
+              <TextField
+                multiline
+                minRows={12}
+                fullWidth
+                value={buildCopySummary()}
+                InputProps={{ readOnly: true }}
+              />
+              <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    navigator.clipboard.writeText(buildCopySummary());
+                  }}
+                >
+                  Copy to Clipboard
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
         </Box>
       </CardContent>
     </Card>
