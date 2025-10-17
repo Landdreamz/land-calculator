@@ -1432,22 +1432,6 @@ export const LandCalculator: React.FC = () => {
             <Box sx={{ flexGrow: 1, minWidth: { xs: '100%', md: 'calc(33.33% - 8px)' } }}>
               <FormControl fullWidth>
                 <Select
-                  value={debrisLevel}
-                  label="Debris Level"
-                  onChange={(e) => setDebrisLevel(e.target.value)}
-                  displayEmpty
-                >
-                  <MenuItem value="">Select debris level</MenuItem>
-                  <MenuItem value="none">None</MenuItem>
-                  <MenuItem value="moderate">Moderate</MenuItem>
-                  <MenuItem value="heavy">Heavy</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-
-            <Box sx={{ flexGrow: 1, minWidth: { xs: '100%', md: 'calc(33.33% - 8px)' } }}>
-              <FormControl fullWidth>
-                <Select
                   value={slope}
                   label="Slope Condition"
                   onChange={(e) => setSlope(e.target.value)}
